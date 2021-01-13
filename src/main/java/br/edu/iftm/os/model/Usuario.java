@@ -38,11 +38,11 @@ public class Usuario implements Serializable {
     private String senha;
     
     @Column(name = "data_cadastro")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dataCadastro;
     
     @Column(name = "data_desativacao")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dataDesativacao;
  
     @ManyToMany(cascade = CascadeType.ALL)
@@ -51,9 +51,10 @@ public class Usuario implements Serializable {
             inverseJoinColumns= {@JoinColumn(name="permissao_id")}
     )
     private List<Permissao> permissoes = new ArrayList<Permissao>();
-   
+
 
     public String getEmailHash(){
-        return MD5Util.md5Hex(this.email);
+        System.out.println(this.email);
+        return MD5Util.md5Hex(email);
     }
 }

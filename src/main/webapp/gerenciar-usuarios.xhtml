@@ -17,6 +17,7 @@
                                  actionListener="#{usuarioBean.alterarAtivacao}"
                                  update="@form"></p:commandButton>
             </os:toolbar>
+
             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" rendered="#{usuarioBean.status.name() != 'BUSCA'}">
                 
                 <p:outputLabel value="Nome" for="nomeid" ></p:outputLabel>

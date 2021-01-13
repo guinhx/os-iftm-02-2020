@@ -83,7 +83,11 @@ public abstract class CrudBean<E, L extends CrudLogic<E>> extends JSFUtil {
             return;
         }
         try {
-            this.entidades = getLogic().buscar(entidade);
+            if(getLogic() != null) {
+                this.entidades = getLogic().buscar(entidade);
+            }else{
+                addMensagemAviso("Error.");
+            }
             if (this.entidades.isEmpty()) {
                 addMensagemAviso("Nenhum dado cadastrado.");
             }

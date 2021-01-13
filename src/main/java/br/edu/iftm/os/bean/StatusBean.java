@@ -1,7 +1,9 @@
 package br.edu.iftm.os.bean;
 
 import br.edu.iftm.os.logic.ServicoLogic;
+import br.edu.iftm.os.logic.StatusLogic;
 import br.edu.iftm.os.model.Servico;
+import br.edu.iftm.os.model.Status;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -10,16 +12,16 @@ import javax.inject.Named;
 
 @Named
 @SessionScoped
-public class ServicoBean extends CrudBean<Servico, ServicoLogic> {
+public class StatusBean extends CrudBean<Status, StatusLogic> {
     @Inject
-    private ServicoLogic logic;
+    private StatusLogic logic;
 
-    public ServicoBean() {
-        super(Servico.class);
+    public StatusBean() {
+        super(Status.class);
     }
     
     @Override
-    public ServicoLogic getLogic() {
+    public StatusLogic getLogic() {
         return this.logic;
     }
     

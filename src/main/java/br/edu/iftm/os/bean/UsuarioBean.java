@@ -6,6 +6,7 @@ import br.edu.iftm.os.model.Permissao;
 import br.edu.iftm.os.model.Usuario;
 import br.edu.iftm.os.util.MD5Util;
 import br.edu.iftm.os.util.StringHelper;
+import br.edu.iftm.os.util.exception.ErroNegocioException;
 import br.edu.iftm.os.util.exception.ErroSistemaException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,8 +44,6 @@ public class UsuarioBean extends CrudBean<Usuario, UsuarioLogic>{
         }
         super.salvar();
     }
-    
-    
 
     @Override
     public UsuarioLogic getLogic() {
@@ -57,7 +56,7 @@ public class UsuarioBean extends CrudBean<Usuario, UsuarioLogic>{
         } else {
             this.getEntidade().setDataDesativacao(null);
         }
-        addMensagemAviso("Para confirmar click em salvar.");
+        addMensagemAviso("Para confirmar clique em salvar.");
     }
     
     public List<Permissao> getPermissoes() {

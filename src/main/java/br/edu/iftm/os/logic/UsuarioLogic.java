@@ -20,6 +20,9 @@ public class UsuarioLogic implements CrudLogic<Usuario>{
         if(entidade.getDataCadastro() == null) {
             entidade.setDataCadastro(new Date());
         }
+        /*if(entidade.getId() == null) {
+            throw new ErroNegocioException("É necessário selecionar um usuário antes para realizar a alteração.");
+        }*/
         return this.repository.salvar(entidade);
     }
 
