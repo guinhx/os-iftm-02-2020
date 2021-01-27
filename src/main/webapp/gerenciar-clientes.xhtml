@@ -1,50 +1,135 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:decorate xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      template="template.xhtml"
-      xmlns:os="http://xmlns.jcp.org/jsf/composite/oscomponente">
-    
-        <h:form>
-            <os:toolbar bean="#{clienteBean}"></os:toolbar>
-           
-            <p:spacer></p:spacer>
-            <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" rendered="#{clienteBean.status.name() != 'BUSCA'}">
-                <h:outputLabel value="CNPJ"></h:outputLabel>
-                <p:inputText value="#{clienteBean.entidade.cpfCnpj}"></p:inputText>
-                <h:outputLabel value="RG"></h:outputLabel>
-                <p:inputText value="#{clienteBean.entidade.rgInscricao}"></p:inputText>
-                <h:outputLabel value="Nome"></h:outputLabel>
-                <p:inputText value="#{clienteBean.entidade.nomeFantasia}"></p:inputText>
-                <h:outputLabel value="Sobrenome"></h:outputLabel>
-                <p:inputText value="#{clienteBean.entidade.sobrenomeRazao}"></p:inputText>
-                <h:outputLabel value="Data Nascimento"></h:outputLabel>
-                <p:calendar value="#{clienteBean.entidade.dataNascimento}"></p:calendar>
-                <h:outputLabel value="Sexo"></h:outputLabel>
-                <p:inputText value="#{clienteBean.entidade.sexo}"></p:inputText>
-                <h:outputLabel value="E-mail"></h:outputLabel>
-                <p:inputText value="#{clienteBean.entidade.email}"></p:inputText>
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:os="http://xmlns.jcp.org/jsf/composite/oscomponente"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:form>
+        <os:toolbar bean="#{clienteBean}"></os:toolbar>
+
+        <p:spacer></p:spacer>
+        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" rendered="#{clienteBean.status.name() != 'BUSCA'}">
+            <h:outputLabel value="Tipo Cliente"></h:outputLabel>
+            <p:selectOneRadio value="#{clienteBean.entidade.tipoCliente}" disabled="#{clienteBean.status.name() == 'EDITA'}">
+                <p:ajax event="change" update="@form"></p:ajax>
+                <f:selectItem itemValue="f" itemLabel="Pessoa Física"></f:selectItem>
+                <f:selectItem itemValue="j" itemLabel="Pessoa Jurídica"></f:selectItem>
+            </p:selectOneRadio>
+
+            <h:outputLabel value="#{clienteBean.entidade.tipoCliente == 'j'?'CNPJ':'CPF'}"></h:outputLabel>
+            <p:inputMask mask="#{clienteBean.entidade.tipoCliente == 'j'?'99.999.999/9999-99':'999.999.999-99'}" value="#{clienteBean.entidade.cpfCnpj}"></p:inputMask>
+
+            <h:outputLabel value="#{clienteBean.entidade.tipoCliente == 'j'?'Inscrição Estadual':'RG'}"></h:outputLabel>
+            <p:inputText value="#{clienteBean.entidade.rgInscricao}"></p:inputText>
+
+            <h:outputLabel value="#{clienteBean.entidade.tipoCliente == 'j'?'Razão social':'Nome'}"></h:outputLabel>
+            <p:inputText value="#{clienteBean.entidade.nomeFantasia}"></p:inputText>
+
+            <h:outputLabel value="#{clienteBean.entidade.tipoCliente == 'j'?'Nome Fantasia':'Sobrenome'}"></h:outputLabel>
+            <p:inputText value="#{clienteBean.entidade.sobrenomeRazao}"></p:inputText>
+
+            <h:outputLabel value="Data Nascimento" rendered="#{clienteBean.entidade.tipoCliente == 'f'}"></h:outputLabel>
+            <p:calendar value="#{clienteBean.entidade.dataNascimento}" rendered="#{clienteBean.entidade.tipoCliente == 'f'}"></p:calendar>
+
+            <h:outputLabel value="Sexo" rendered="#{clienteBean.entidade.tipoCliente == 'f'}"></h:outputLabel>
+            <p:selectOneRadio value="#{clienteBean.entidade.sexo}" rendered="#{clienteBean.entidade.tipoCliente == 'f'}">
+                <f:selectItem itemValue="m" itemLabel="Masculino"></f:selectItem>
+                <f:selectItem itemValue="f" itemLabel="Feminino"></f:selectItem>
+                <f:selectItem itemValue="o" itemLabel="Outro"></f:selectItem>
+                <f:selectItem itemValue="n" itemLabel="Não Informado"></f:selectItem>
+            </p:selectOneRadio>
+
+            <h:outputLabel value="E-mail"></h:outputLabel>
+            <p:inputText value="#{clienteBean.entidade.email}"></p:inputText>
+
+
+            <h:outputText value="Endereços"></h:outputText>
+            <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+                <p:commandButton type="button" value="Adiocionar Endreço" onclick="PF('dialogAddEndereco').show()"></p:commandButton>
+                <p:dialog widgetVar="dialogAddEndereco" header="Adicionar Endereço" modal="true">
+                    <p:panelGrid styleClass="ui-panelgrid-blank" columns="2">
+                        <h:outputLabel value="Descrição"></h:outputLabel>
+                        <p:inputText value="#{clienteBean.endereco.descricao}"></p:inputText>
+                        <h:outputLabel value="Logradouro"></h:outputLabel>
+                        <p:inputText value="#{clienteBean.endereco.logradouro}"></p:inputText>
+                        <h:outputLabel value="Número"></h:outputLabel>
+                        <p:inputText value="#{clienteBean.endereco.numero}"></p:inputText>
+                        <h:outputLabel value="Complemento"></h:outputLabel>
+                        <p:inputText value="#{clienteBean.endereco.complemento}"></p:inputText>
+                        <h:outputLabel value="Bairro"></h:outputLabel>
+                        <p:inputText value="#{clienteBean.endereco.bairro}"></p:inputText>
+                        <h:outputLabel value="CEP"></h:outputLabel>
+                        <p:inputMask value="#{clienteBean.endereco.cep}" mask="99999-999"></p:inputMask>
+                        <h:outputLabel value="Cidade"></h:outputLabel>
+                        <p:inputText value="#{clienteBean.endereco.cidade}"></p:inputText>
+                        <h:outputLabel value="Estado"></h:outputLabel>
+                        <p:selectOneMenu value="#{clienteBean.endereco.estado}">
+                            <f:selectItem itemValue="" itemLabel="Selecione"></f:selectItem>
+                            <f:selectItem itemValue='AC' itemLabel='Acre'></f:selectItem>
+                            <f:selectItem itemValue='AL' itemLabel='Alagoas'></f:selectItem>
+                            <f:selectItem itemValue='AP' itemLabel='Amapá'></f:selectItem>
+                            <f:selectItem itemValue='AM' itemLabel='Amazonas'></f:selectItem>
+                            <f:selectItem itemValue='BA' itemLabel='Bahia'></f:selectItem>
+                            <f:selectItem itemValue='CE' itemLabel='Ceará'></f:selectItem>
+                            <f:selectItem itemValue='ES' itemLabel='Espírito Santo'></f:selectItem>
+                            <f:selectItem itemValue='GO' itemLabel='Goiás'></f:selectItem>
+                            <f:selectItem itemValue='MA' itemLabel='Maranhão'></f:selectItem>
+                            <f:selectItem itemValue='MT' itemLabel='Mato Grosso'></f:selectItem>
+                            <f:selectItem itemValue='MS' itemLabel='Mato Grosso do Sul'></f:selectItem>
+                            <f:selectItem itemValue='MG' itemLabel='Minas Gerais'></f:selectItem>
+                            <f:selectItem itemValue='PA' itemLabel='Pará'></f:selectItem>
+                            <f:selectItem itemValue='PB' itemLabel='Paraíba'></f:selectItem>
+                            <f:selectItem itemValue='PR' itemLabel='Paraná'></f:selectItem>
+                            <f:selectItem itemValue='PE' itemLabel='Pernambuco'></f:selectItem>
+                            <f:selectItem itemValue='PI' itemLabel='Piauí'></f:selectItem>
+                            <f:selectItem itemValue='RJ' itemLabel='Rio de Janeiro'></f:selectItem>
+                            <f:selectItem itemValue='RN' itemLabel='Rio Grande do Norte'></f:selectItem>
+                            <f:selectItem itemValue='RS' itemLabel='Rio Grande do Sul'></f:selectItem>
+                            <f:selectItem itemValue='RO' itemLabel='Rondônia'></f:selectItem>
+                            <f:selectItem itemValue='RR' itemLabel='Roraima'></f:selectItem>
+                            <f:selectItem itemValue='SC' itemLabel='Santa Catarina'></f:selectItem>
+                            <f:selectItem itemValue='SP' itemLabel='São Paulo'></f:selectItem>
+                            <f:selectItem itemValue='SE' itemLabel='Sergipe'></f:selectItem>
+                            <f:selectItem itemValue='TO' itemLabel='Tocantins'></f:selectItem>
+                            <f:selectItem itemValue='DF' itemLabel='Distrito Federal'></f:selectItem>
+                        </p:selectOneMenu>
+                        <h:outputLabel></h:outputLabel>
+                        <p:commandButton value="Adicionar" actionListener="#{clienteBean.adicionarEndereco()}" update="@form"></p:commandButton>
+                    </p:panelGrid>
+                </p:dialog>
             </p:panelGrid>
-            
-            <p:dataTable value="#{clienteBean.entidades}" var="ent" rendered="#{clienteBean.status.name() == 'BUSCA'}">
-                <p:column>
-                    <p:commandButton icon="fa fa-fw fa-pencil" actionListener="#{clienteBean.editar(ent)}"
-                                     update="@form" ></p:commandButton>
-                    <p:commandButton icon="fa fa-fw fa-trash" actionListener="#{clienteBean.deletar(ent)}"
-                                     update="@form" ></p:commandButton>
-                </p:column>
-                <p:column headerText="Nome">
-                    <h:outputText value="#{ent.nomeFantasia}"></h:outputText>
-                </p:column>
-                <p:column headerText="E-mail">
-                    <h:outputText value="#{ent.email}"></h:outputText>
-                </p:column>
-                <p:column headerText="CPF">
-                    <h:outputText value="#{ent.cpfCnpj}"></h:outputText>
-                </p:column>
-            </p:dataTable>
-        </h:form>
+
+        </p:panelGrid>
+        <p:dataTable value="#{clienteBean.entidade.enderecos}" var="endereco"  rendered="#{clienteBean.status.name() != 'BUSCA'}">
+            <p:column headerText="Descrição">
+                <h:outputText value="#{endereco.descricao}"></h:outputText>
+            </p:column>
+            <p:column headerText="Logrdouro">
+                <h:outputText value="#{endereco.logradouro}"></h:outputText>
+            </p:column>
+        </p:dataTable>
+
+        <p:dataTable value="#{clienteBean.entidades}" var="ent" rendered="#{clienteBean.status.name() == 'BUSCA'}">
+            <p:column>
+                <p:commandButton icon="fa fa-fw fa-pencil" actionListener="#{clienteBean.editar(ent)}"
+                                 update="@form" ></p:commandButton>
+                <p:commandButton icon="fa fa-fw fa-trash" actionListener="#{clienteBean.deletar(ent)}"
+                                 update="@form" ></p:commandButton>
+            </p:column>
+            <p:column headerText="Nome">
+                <h:outputText value="#{ent.nomeFantasia}"></h:outputText>
+            </p:column>
+            <p:column headerText="E-mail">
+                <h:outputText value="#{ent.email}"></h:outputText>
+            </p:column>
+            <p:column headerText="CPF">
+                <h:outputText value="#{ent.cpfCnpj}"></h:outputText>
+            </p:column>
+        </p:dataTable>
+    </h:form>
 </ui:decorate>
 

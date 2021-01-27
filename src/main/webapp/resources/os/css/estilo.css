@@ -126,6 +126,18 @@ footer p {
     vertical-align: middle;
 }
 
+.ajax-logo {
+    float: left;
+    height: 40px;
+    padding-right: 15px;
+}
+
+.ajax-texto {
+    float: left;
+    line-height: 40px;
+    margin: 0;
+}
+
 @media screen and (min-width: 768px) {
     aside {
         left: calc(-1 * var(--largura-aside));

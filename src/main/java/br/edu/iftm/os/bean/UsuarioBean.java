@@ -11,8 +11,6 @@ import br.edu.iftm.os.util.exception.ErroSistemaException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -39,7 +37,7 @@ public class UsuarioBean extends CrudBean<Usuario, UsuarioLogic>{
     @Override
     public void salvar() {
         if(StringHelper.isNotEmpty(this.senha)){
-            this.senha = MD5Util.md5Hex(senha);
+            this.senha = MD5Util.md5Hex("sistema"+senha);//Salt - Tempera
             getEntidade().setSenha(this.senha);
         }
         super.salvar();
