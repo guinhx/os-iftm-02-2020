@@ -10,33 +10,33 @@
              xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:form>
-        <os:toolbar bean="#{OSBean}"></os:toolbar>
+        <os:toolbar bean="#{oSBean}"></os:toolbar>
 
         <p:spacer></p:spacer>
-        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" rendered="#{OSBean.status.name() != 'BUSCA'}">
+        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" rendered="#{osBean.status.name() != 'BUSCA'}">
             <h:outputLabel value="Clientes"></h:outputLabel>
-            <p:selectOneMenu value="#{OSBean.entidade.cliente}">
-                <f:selectItems value="#{OSBean.clientes}" var="cliente" itemLabel="#{cliente.nomeFantasia}" itemValue="#{cliente.id}"></f:selectItems>
+            <p:selectOneMenu value="#{osBean.entidade.cliente}">
+                <f:selectItems value="#{osBean.clientes}" var="cliente" itemLabel="#{cliente.nomeFantasia}" itemValue="#{cliente.id}"></f:selectItems>
             </p:selectOneMenu>
 
             <h:outputLabel value="Nome do entregador"></h:outputLabel>
-            <p:inputText value="#{OSBean.entidade.nomeCliente}"></p:inputText>
+            <p:inputText value="#{osBean.entidade.nomeCliente}"></p:inputText>
 
             <h:outputLabel value="Código do OS"></h:outputLabel>
-            <p:inputNumber value="#{OSBean.entidade.codigoOS}"></p:inputNumber>
+            <p:inputNumber value="#{osBean.entidade.codigoOS}"></p:inputNumber>
 
             <h:outputLabel value="Descrição do equipamento"></h:outputLabel>
-            <p:inputText value="#{OSBean.entidade.descricaoEquipamento}"></p:inputText>
+            <p:inputText value="#{osBean.entidade.descricaoEquipamento}"></p:inputText>
 
             <h:outputLabel value="Data da abertura"></h:outputLabel>
-            <p:calendar value="#{OSBean.entidade.dataAbertura}"></p:calendar>
+            <p:calendar value="#{osBean.entidade.dataAbertura}"></p:calendar>
 
         </p:panelGrid>
-        <p:dataTable value="#{OSBean.entidades}" var="ent" rendered="#{OSBean.status.name() == 'BUSCA'}">
+        <p:dataTable value="#{osBean.entidades}" var="ent" rendered="#{osBean.status.name() == 'BUSCA'}">
             <p:column>
-                <p:commandButton icon="fa fa-fw fa-pencil" actionListener="#{OSBean.editar(ent)}"
+                <p:commandButton icon="fa fa-fw fa-pencil" actionListener="#{osBean.editar(ent)}"
                                  update="@form" ></p:commandButton>
-                <p:commandButton icon="fa fa-fw fa-trash" actionListener="#{OSBean.deletar(ent)}"
+                <p:commandButton icon="fa fa-fw fa-trash" actionListener="#{osBean.deletar(ent)}"
                                  update="@form" ></p:commandButton>
             </p:column>
             <p:column headerText="Cliente">

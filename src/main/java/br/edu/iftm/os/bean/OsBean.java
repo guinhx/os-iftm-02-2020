@@ -17,7 +17,7 @@ import java.util.List;
 @Named
 @SessionScoped
 @Getter
-public class OSBean extends CrudBean<OS, OSLogic>{
+public class OsBean extends CrudBean<OS, OSLogic>{
 
     @Inject
     private OSLogic logic;
@@ -25,7 +25,7 @@ public class OSBean extends CrudBean<OS, OSLogic>{
     @Inject
     private ClienteLogic clienteLogic;
 
-    public OSBean() {
+    public OsBean() {
         super(OS.class);
     }
 
