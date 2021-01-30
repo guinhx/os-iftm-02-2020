@@ -14,8 +14,10 @@
 
         <p:spacer></p:spacer>
         <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" rendered="#{OSBean.status.name() != 'BUSCA'}">
-            <h:outputLabel value="#ID do Cliente"></h:outputLabel>
-            <p:inputNumber value="#{OSBean.entidade.cliente.id}"></p:inputNumber>
+            <h:outputLabel value="Clientes"></h:outputLabel>
+            <p:selectOneMenu value="#{OSBean.entidade.cliente}">
+                <f:selectItems value="#{OSBean.clientes}" var="cliente" itemLabel="#{cliente.nomeFantasia}" itemValue="#{cliente.id}"></f:selectItems>
+            </p:selectOneMenu>
 
             <h:outputLabel value="Nome do entregador"></h:outputLabel>
             <p:inputText value="#{OSBean.entidade.nomeCliente}"></p:inputText>
@@ -38,7 +40,7 @@
                                  update="@form" ></p:commandButton>
             </p:column>
             <p:column headerText="Cliente">
-                <h:outputText value="#{ent.cliente}"></h:outputText>
+                <h:outputText value="#{ent.cliente.nomeFantasia}"></h:outputText>
             </p:column>
             <p:column headerText="Entregador">
                 <h:outputText value="#{ent.nomeCliente}"></h:outputText>
