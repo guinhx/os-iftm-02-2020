@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:os="http://xmlns.jcp.org/jsf/composite/oscomponente"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:form>
+        <os:toolbar bean="#{OSBean}"></os:toolbar>
+
+        <p:spacer></p:spacer>
+        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" rendered="#{OSBean.status.name() != 'BUSCA'}">
+            <h:outputLabel value="#ID do Cliente"></h:outputLabel>
+            <p:inputNumber value="#{OSBean.entidade.cliente.id}"></p:inputNumber>
+
+            <h:outputLabel value="Nome do entregador"></h:outputLabel>
+            <p:inputText value="#{OSBean.entidade.nomeCliente}"></p:inputText>
+
+            <h:outputLabel value="Código do OS"></h:outputLabel>
+            <p:inputNumber value="#{OSBean.entidade.codigoOS}"></p:inputNumber>
+
+            <h:outputLabel value="Descrição do equipamento"></h:outputLabel>
+            <p:inputText value="#{OSBean.entidade.descricaoEquipamento}"></p:inputText>
+
+            <h:outputLabel value="Data da abertura"></h:outputLabel>
+            <p:calendar value="#{OSBean.entidade.dataAbertura}"></p:calendar>
+
+        </p:panelGrid>
+        <p:dataTable value="#{OSBean.entidades}" var="ent" rendered="#{OSBean.status.name() == 'BUSCA'}">
+            <p:column>
+                <p:commandButton icon="fa fa-fw fa-pencil" actionListener="#{OSBean.editar(ent)}"
+                                 update="@form" ></p:commandButton>
+                <p:commandButton icon="fa fa-fw fa-trash" actionListener="#{OSBean.deletar(ent)}"
+                                 update="@form" ></p:commandButton>
+            </p:column>
+            <p:column headerText="Cliente">
+                <h:outputText value="#{ent.cliente}"></h:outputText>
+            </p:column>
+            <p:column headerText="Entregador">
+                <h:outputText value="#{ent.nomeCliente}"></h:outputText>
+            </p:column>
+            <p:column headerText="Código OS">
+                <h:outputText value="#{ent.codigoOS}"></h:outputText>
+            </p:column>
+            <p:column headerText="Desc. do Equipamento">
+                <h:outputText value="#{ent.descricaoEquipamento}"></h:outputText>
+            </p:column>
+            <p:column headerText="Data Abertura">
+                <h:outputText value="#{ent.dataAbertura}"></h:outputText>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</ui:decorate>
+

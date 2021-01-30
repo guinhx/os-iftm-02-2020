@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:os="http://xmlns.jcp.org/jsf/composite/oscomponente"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:form>
+        <os:toolbar bean="#{caixaBean}"></os:toolbar>
+
+        <p:spacer></p:spacer>
+        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" rendered="#{caixaBean.status.name() != 'BUSCA'}">
+
+            <h:outputLabel value="Nome"></h:outputLabel>
+            <p:inputText value="#{caixaBean.entidade.descricao}"></p:inputText>
+
+            <h:outputLabel value="Tipo de movimento"></h:outputLabel>
+            <p:selectOneRadio value="#{caixaBean.entidade.tipoMovimento}" disabled="#{caixaBean.status.name() == 'EDITA'}">
+                <f:selectItem itemValue="entrada" itemLabel="Entrada"></f:selectItem>
+                <f:selectItem itemValue="saida" itemLabel="Saída"></f:selectItem>
+            </p:selectOneRadio>
+
+            <h:outputLabel value="Data da movimentação"></h:outputLabel>
+            <p:calendar value="#{caixaBean.entidade.dataMovimento}"></p:calendar>
+
+            <p:outputLabel for="valor" value="Valor"/>
+            <p:inputNumber id="valor" value="#{caixaBean.entidade.valor}" emptyValue="0" symbol=" R$"
+                           symbolPosition="s" decimalSeparator="," thousandSeparator="." />
+        </p:panelGrid>
+        <p:dataTable value="#{caixaBean.entidades}" var="ent" rendered="#{caixaBean.status.name() == 'BUSCA'}">
+            <p:column>
+                <p:commandButton icon="fa fa-fw fa-pencil" actionListener="#{caixaBean.editar(ent)}"
+                                 update="@form" ></p:commandButton>
+                <p:commandButton icon="fa fa-fw fa-trash" actionListener="#{caixaBean.deletar(ent)}"
+                                 update="@form" ></p:commandButton>
+            </p:column>
+            <p:column headerText="Descrição">
+                <h:outputText value="#{ent.descricao}"></h:outputText>
+            </p:column>
+            <p:column headerText="Movimentação">
+                <h:outputText value="#{ent.tipoMovimento}"></h:outputText>
+            </p:column>
+            <p:column headerText="Data de movimentação">
+                <h:outputText value="#{ent.dataMovimento}"></h:outputText>
+            </p:column>
+            <p:column headerText="Valor">
+                <h:outputText value="#{ent.valor}"></h:outputText>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</ui:decorate>
+

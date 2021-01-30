@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:os="http://xmlns.jcp.org/jsf/composite/oscomponente"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:form>
+        <os:toolbar bean="#{detalhesBean}"></os:toolbar>
+
+        <p:spacer></p:spacer>
+        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" rendered="#{detalhesBean.status.name() != 'BUSCA'}">
+
+            <h:outputLabel value="Nome"></h:outputLabel>
+            <p:inputText value="#{detalhesBean.entidade.nome}"></p:inputText>
+
+            <h:outputLabel value="Tipo"></h:outputLabel>
+            <p:selectOneRadio value="#{detalhesBean.entidade.tipo}" disabled="#{detalhesBean.status.name() == 'EDITA'}">
+                <f:selectItem itemValue="teste" itemLabel="Teste"></f:selectItem>
+                <f:selectItem itemValue="teste2" itemLabel="Teste 2"></f:selectItem>
+            </p:selectOneRadio>
+
+            <h:outputLabel value="Valores"></h:outputLabel>
+            <p:selectOneMenu value="#{detalhesBean.entidade.valores}">
+                <f:selectItem itemValue="" itemLabel="Selecione"></f:selectItem>
+                <f:selectItem itemValue='1' itemLabel='1'></f:selectItem>
+                <f:selectItem itemValue='2' itemLabel='2'></f:selectItem>
+                <f:selectItem itemValue='3' itemLabel='3'></f:selectItem>
+            </p:selectOneMenu>
+        </p:panelGrid>
+        <p:dataTable value="#{detalhesBean.entidades}" var="ent" rendered="#{detalhesBean.status.name() == 'BUSCA'}">
+            <p:column>
+                <p:commandButton icon="fa fa-fw fa-pencil" actionListener="#{detalhesBean.editar(ent)}"
+                                 update="@form" ></p:commandButton>
+                <p:commandButton icon="fa fa-fw fa-trash" actionListener="#{detalhesBean.deletar(ent)}"
+                                 update="@form" ></p:commandButton>
+            </p:column>
+            <p:column headerText="Nome">
+                <h:outputText value="#{ent.nome}"></h:outputText>
+            </p:column>
+            <p:column headerText="Tipo">
+                <h:outputText value="#{ent.tipo}"></h:outputText>
+            </p:column>
+            <p:column headerText="Valores">
+                <h:outputText value="#{ent.valores}"></h:outputText>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</ui:decorate>
+
